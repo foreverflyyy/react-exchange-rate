@@ -8,7 +8,7 @@ const MyButton = ({children, ...props}: Props) => {
     return (
         <button
             {...props}
-            className={"text-[18px] border-2 rounded-md py-2 px-4 border-blue-500 hover:bg-gray-700 hover:border-gray-700 hover:text-white duration-300"}
+            className={"text-[18px] border-2 text-white rounded-md py-2 px-4 hover:border-blue-500 bg-gray-700 hover:bg-white border-gray-700 hover:text-black duration-300"}
         >
             {children}
         </button>

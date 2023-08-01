@@ -4,7 +4,7 @@ import MyButton from "../components/UI/MyButton";
 import FormConverter from "../components/FormConverter";
 import MyLoading from "../components/UI/MyLoading";
 import {useSelector} from "react-redux";
-import {selectValuesConverter} from "../store/features/rateSlice";
+import {selectValuesConverter} from "../store/features/convertRateSlice";
 import {useGetTransferRateQuery} from "../store/services/ratesApi";
 
 const ConverterPage = () => {
@@ -27,7 +27,7 @@ const ConverterPage = () => {
                     <Link
                         to={"/rates"}
                     >
-                        Go to rates
+                        Go to Rates
                     </Link>
                 </MyButton>
             </div>

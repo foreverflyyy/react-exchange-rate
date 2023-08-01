@@ -4,9 +4,8 @@ import MyInput from "./UI/MyInput";
 import useDebounce from "../hooks/useDebounce";
 import {TypeRate} from "../models/enum/typeRate";
 import {useDispatch, useSelector} from "react-redux";
-import {selectValuesConverter, setNumberFrom, setNumberTo, setRateFrom, setRateTo} from "../store/features/rateSlice";
-
-const options = Object.values(TypeRate);
+import {selectValuesConverter, setNumberFrom, setNumberTo, setRateFrom, setRateTo} from "../store/features/convertRateSlice";
+import {options} from "../data/options";
 
 const FormConverter = () => {
 
