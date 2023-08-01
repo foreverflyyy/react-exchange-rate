@@ -1,7 +1,9 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import {ratesApi} from "./services/ratesApi";
+import rateSlice from "./features/rateSlice";
 
 const rootReducers = combineReducers({
+    rate: rateSlice,
     [ratesApi.reducerPath]: ratesApi.reducer
 });
 

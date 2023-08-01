@@ -2,12 +2,15 @@ import {TypeRate} from "./enum/typeRate";
 
 export interface Response {
     success: boolean,
-    timestamp: number,
-    base: string,
+    query: {
+        from: TypeRate,
+        to: TypeRate,
+        amount: number
+    },
+    info: {
+        timestamp: number,
+        rate: number
+    },
     date: string,
-    rates: TypeRate,
-    error?: {
-        code: number,
-        info: string
-    }
+    result: number
 }

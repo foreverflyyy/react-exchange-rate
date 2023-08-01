@@ -1,48 +1,46 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
-import MyInput from "../components/UI/MyInput";
-import MySelect from "../components/UI/MySelect";
-import {TypeRate} from "../models/enum/typeRate";
-
-const options: string[] = [
-    TypeRate.AUD,
-    TypeRate.CAD,
-    TypeRate.CHF,
-    TypeRate.CNY,
-    TypeRate.JPY,
-    TypeRate.USD,
-]
+import MyButton from "../components/UI/MyButton";
+import FormConverter from "../components/FormConverter";
+import MyLoading from "../components/UI/MyLoading";
+import {useSelector} from "react-redux";
+import {selectValuesConverter} from "../store/features/rateSlice";
+import {useGetTransferRateQuery} from "../store/services/ratesApi";
 
 const ConverterPage = () => {
 
-    const [currentRate, setCurrentRate] = useState<string>(TypeRate.USD);
+    const converterValues = useSelector(selectValuesConverter);
+
+    const {
+        data: result,
+        isLoading,
+        error
+    } = useGetTransferRateQuery(
+        converterValues,
+        {skip: converterValues.numberFrom === "" || converterValues.numberFrom === "0"}
+    );
 
     return (
         <div className={"h-full flex flex-col justify-center items-center"}>
-            <div>
-                <h2 className={"flex justify-center items-center"}>
-                    ConverterPage
-                </h2>
-                <Link
-                    to={"/rates"}
-                    className={"text-xl text-blue-500"}
-                >
-                    Go to rates
-                </Link>
+            <div className={"absolute left-2 top-2"}>
+                <MyButton>
+                    <Link
+                        to={"/rates"}
+                    >
+                        Go to rates
+                    </Link>
+                </MyButton>
             </div>
-            <div className={"pt-10"}>
-                <MyInput
-                    placeholder={"Enter number"}
-                />
-                <MySelect
-                    title={"Валюта"}
-                    options={options}
-                    currentOption={currentRate}
-                    changeOption={(value: string) => setCurrentRate(value)}
-                />
-            </div>
+            <h2 className={"py-3 text-4xl text-gray-700 font-semibold"}>
+                Converter
+            </h2>
+            <FormConverter/>
+            {isLoading && <MyLoading/>}
+            {error && <h2 className={"pt-3 text-xl text-red-500"}>Invalid number</h2>}
         </div>
     );
 };
 
 export default ConverterPage;
+
+const ACCESS_KEY = "GUz7CdCROMduhDYkZzTAuIRRMYVytR9B";

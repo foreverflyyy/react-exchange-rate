@@ -1,9 +1,9 @@
 export enum TypeRate {
-    AUD = "AUD",
-    CAD = "CAD",
-    CHF = "CHF",
-    CNY = "CNY",
-    GBP = "GBP",
-    JPY = "JPY",
     USD = "USD",
+    RUB = "RUB",
+    EUR = "EUR",
+    AED = "AED",
+    AFN = "AFN",
+    ALL = "ALL",
+    AMD = "AMD"
 }

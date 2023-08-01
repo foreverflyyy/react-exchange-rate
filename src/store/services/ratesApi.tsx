@@ -1,42 +1,41 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {Route} from "../../models/route";
 import {Response} from "../../models/response";
+import {Converter} from "../../models/converter";
 
 // по хорошему убрать в переменную окружения в .env
-const ACCESS_KEY = "c8c61e4fa9463f48be1811d476deaaa1";
+const ACCESS_KEY = "GUz7CdCROMduhDYkZzTAuIRRMYVytR9B";
 
 export const ratesApi = createApi({
     reducerPath: "ratesApi",
     refetchOnFocus: true,
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://api.exchangeratesapi.io/v1/latest"
+        baseUrl: "https://api.apilayer.com/exchangerates_data/convert"
     }),
     endpoints: (builder) => ({
-        getRates: builder.query<Response, null>({
-            query: () => {
+        getTransferRate: builder.query<number, Converter>({
+            query: (converter: Converter) => {
+
+                if(converter.numberFrom === "" || converter.numberTo === "0")
+                    throw new Error("");
+
                 return {
-                    url: "posts",
+                    url: "",
                     params: {
-                        _limit: "",
-                        _page: ""
+                        from: converter.rateFrom,
+                        to: converter.rateTo,
+                        amount: converter.numberFrom
+                    },
+                    headers: {
+                        "apikey": ACCESS_KEY
                     }
                 }
-            }
-        }),
-        getRate: builder.query<Route[], {limit: number, page: number}>({
-            query: ({limit, page}) => {
-                return {
-                    url: "posts",
-                    params: {
-                        _limit: limit,
-                        _page: page
-                    }
-                }
-            }
-        }),
+            },
+            transformResponse: (response: Response) => response.result,
+            transformErrorResponse: (error: any) => error.data,
+        })
     })
 })
 
 export const {
-    useGetRatesQuery,
+    useGetTransferRateQuery,
 } = ratesApi;
