@@ -1,38 +1,39 @@
-import React, {useState} from 'react';
-import {useSelector} from "react-redux";
-import {selectDefaultRate} from "../store/features/defaultRateSlice";
-import RateRow from "./RateRow";
-import {Rate} from "../models/rate";
+import React, {useMemo, useState} from 'react';
 import {TypeRate} from "../models/enum/typeRate";
 import MyModal from "./UI/MyModal";
+import {TypeSort} from "../models/enum/typeSort";
+import {options} from "../data/options";
+import {useGetAllRatesByValueQuery} from "../store/services/ratesApi";
+import MyLoading from "./UI/MyLoading";
+import RateRowsList from "./RateRowsList";
 
-const rows: Rate[] = [
-    {
-        name: TypeRate.USD,
-        rate: 100
-    },
-    {
-        name: TypeRate.EUR,
-        rate: 200
-    },
-    {
-        name: TypeRate.RUB,
-        rate: 300
-    },
-    {
-        name: TypeRate.AED,
-        rate: 400
-    },
+const column = [
+    {nameColumn: "Rate", value: TypeSort.NAME},
+    {nameColumn: "Current Value", value: TypeSort.VALUE}
 ]
 
-const column = ["Rate", "Current Different"]
-
-// https://apilayer.com/marketplace/exchangerates_data-api
-
-const TableWithRates = () => {
+const TableWithRates = ({defaultRate}: {defaultRate: TypeRate}) => {
 
     const [showModal, setShowModal] = useState(false);
-    const {defaultRate} = useSelector(selectDefaultRate);
+    const [currentTypeSort, setCurrentTypeSort] = useState<TypeSort>(TypeSort.DEFAULT);
+
+    const lineRates = useMemo(() => {
+        return options
+            .filter(option => option !== defaultRate)
+            .join(",");
+    }, [defaultRate]);
+
+    const {
+        data: rates = [],
+        isLoading,
+        error
+    } = useGetAllRatesByValueQuery({baseRate: defaultRate, symbols: lineRates});
+
+    if(isLoading)
+        return <MyLoading/>
+
+    if(error)
+        return <h2 className={"pt-3 text-xl text-red-500"}>Invalid request</h2>
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -40,8 +41,12 @@ const TableWithRates = () => {
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     {column?.map(column => (
-                        <th key={column} scope="col" className="px-6 py-3">
-                            {column}
+                        <th
+                            key={column.value}
+                            onClick={() => setCurrentTypeSort(column.value)}
+                            scope="col"
+                            className="px-6 py-3">
+                            <div className={"hover:text-white duration-300 cursor-pointer"}>{column.nameColumn}</div>
                         </th>
                     ))}
                     <th scope="col" className="px-6 py-3">
@@ -50,9 +55,11 @@ const TableWithRates = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {rows?.map((row: any) =>
-                    <RateRow key={row.name} rate={row} setShowModal={setShowModal}/>
-                )}
+                    <RateRowsList
+                        rates={rates}
+                        currentTypeSort={currentTypeSort}
+                        setShowModal={setShowModal}
+                    />
                 </tbody>
             </table>
             {showModal && (
@@ -67,3 +74,5 @@ const TableWithRates = () => {
 };
 
 export default TableWithRates;
+
+// https://apilayer.com/marketplace/exchangerates_data-api

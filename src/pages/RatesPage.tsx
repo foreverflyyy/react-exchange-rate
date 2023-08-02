@@ -36,7 +36,7 @@ const RatesPage = () => {
            <h2 className={"pt-16 pb-3 text-4xl text-gray-700 font-semibold"}>
                Table with Rates
            </h2>
-           <TableWithRates/>
+           <TableWithRates defaultRate={defaultRate}/>
        </div>
     );
 };

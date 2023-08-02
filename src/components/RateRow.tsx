@@ -14,7 +14,7 @@ const RateRow = ({rate, setShowModal}: Props) => {
                 {rate.name}
             </th>
             <td className="px-6 py-4">
-                {rate.rate}
+                {rate.value}
             </td>
             <td className="px-6 py-4 text-right">
                 <a

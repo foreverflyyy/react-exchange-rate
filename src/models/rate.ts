@@ -2,5 +2,9 @@ import {TypeRate} from "./enum/typeRate";
 
 export interface Rate {
     name: TypeRate,
-    rate: number
+    value: number
+}
+
+export interface RateResponse {
+    TypeRate: number
 }

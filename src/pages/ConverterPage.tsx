@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Link} from "react-router-dom";
 import MyButton from "../components/UI/MyButton";
 import FormConverter from "../components/FormConverter";
@@ -12,7 +12,6 @@ const ConverterPage = () => {
     const converterValues = useSelector(selectValuesConverter);
 
     const {
-        data: result,
         isLoading,
         error
     } = useGetTransferRateQuery(
@@ -42,5 +41,3 @@ const ConverterPage = () => {
 };
 
 export default ConverterPage;
-
-const ACCESS_KEY = "GUz7CdCROMduhDYkZzTAuIRRMYVytR9B";
