@@ -1,7 +1,6 @@
 {
    "name": "react-exchange-rate",
    "version": "0.1.0",
-   "homepage": "https://foreverflyyy.github.io/react-exchange-rate",
    "private": true,
    "dependencies": {
       "@reduxjs/toolkit": "^1.9.5",
