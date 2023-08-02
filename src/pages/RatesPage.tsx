@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import MyButton from "../components/UI/MyButton";
-import TableWithRates from "../components/TableWithRates";
+import TableWithRates from "../components/table/TableWithRates";
 import MySelect from "../components/UI/MySelect";
 import {useDispatch, useSelector} from "react-redux";
 import {options} from "../data/options";

@@ -1,12 +1,15 @@
-import React, {ReactNode, useState} from 'react';
-import {Rate} from "../models/rate";
+import React, {useState} from 'react';
+import {Rate} from "../../models/rate";
+import MyModal from "../UI/MyModal";
+import GraphByRate from "../graph/GraphByRate";
 
 interface Props {
     rate: Rate,
-    setShowModal: (val: boolean) => void,
 }
 
-const RateRow = ({rate, setShowModal}: Props) => {
+const RateRow = ({rate}: Props) => {
+
+    const [showModal, setShowModal] = useState(false);
 
     return (
         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 duration-300">
@@ -25,6 +28,13 @@ const RateRow = ({rate, setShowModal}: Props) => {
                     Show graph
                 </a>
             </td>
+            {showModal && (
+                <td>
+                    <MyModal setShowModal={setShowModal}>
+                        <GraphByRate setShowModal={setShowModal} rate={rate}/>
+                    </MyModal>
+                </td>
+            )}
         </tr>
     );
 };

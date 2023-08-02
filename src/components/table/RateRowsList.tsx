@@ -1,16 +1,15 @@
 import React, {useMemo} from 'react';
 import RateRow from "./RateRow";
-import {Rate, RateResponse} from "../models/rate";
-import {useSortedRates} from "../hooks/useSortedRates";
-import {TypeSort} from "../models/enum/typeSort";
+import {Rate, RateResponse} from "../../models/rate";
+import {useSortedRates} from "../../hooks/useSortedRates";
+import {TypeSort} from "../../models/enum/typeSort";
 
 interface Props {
     rates: RateResponse[],
     currentTypeSort: TypeSort,
-    setShowModal: (val: boolean) => void,
 }
 
-const RateRowsList = ({rates, setShowModal, currentTypeSort}: Props) => {
+const RateRowsList = ({rates, currentTypeSort}: Props) => {
 
     const needRates = useMemo(() => {
         const keys = Object.keys(rates);
@@ -19,7 +18,7 @@ const RateRowsList = ({rates, setShowModal, currentTypeSort}: Props) => {
         return keys?.map((_, i) => {
             return {
                 name: keys[i],
-                value: Number(values[i]),
+                value: Math.ceil(Number(values[i]) * 100) / 100,
             } as Rate
         })
     }, [rates, currentTypeSort]);
@@ -32,7 +31,6 @@ const RateRowsList = ({rates, setShowModal, currentTypeSort}: Props) => {
                 return <RateRow
                     key={rate.name}
                     rate={rate}
-                    setShowModal={setShowModal}
                 />
             })}
         </>

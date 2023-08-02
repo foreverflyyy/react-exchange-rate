@@ -1,6 +1,6 @@
-import {TypeRate} from "./enum/typeRate";
+import {TypeRate} from "../enum/typeRate";
 
-export interface Response {
+export interface ConvertResponse {
     success: boolean,
     query: {
         from: TypeRate,

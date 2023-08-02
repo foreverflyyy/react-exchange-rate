@@ -1,11 +1,11 @@
 import React, {useMemo, useState} from 'react';
-import {TypeRate} from "../models/enum/typeRate";
-import MyModal from "./UI/MyModal";
-import {TypeSort} from "../models/enum/typeSort";
-import {options} from "../data/options";
-import {useGetAllRatesByValueQuery} from "../store/services/ratesApi";
-import MyLoading from "./UI/MyLoading";
+import {TypeRate} from "../../models/enum/typeRate";
+import {TypeSort} from "../../models/enum/typeSort";
+import {options} from "../../data/options";
+import {useGetAllRatesByValueQuery} from "../../store/services/ratesApi";
+import MyLoading from "../UI/MyLoading";
 import RateRowsList from "./RateRowsList";
+import MyPagination from "../UI/MyPagination";
 
 const column = [
     {nameColumn: "Rate", value: TypeSort.NAME},
@@ -14,14 +14,16 @@ const column = [
 
 const TableWithRates = ({defaultRate}: {defaultRate: TypeRate}) => {
 
-    const [showModal, setShowModal] = useState(false);
     const [currentTypeSort, setCurrentTypeSort] = useState<TypeSort>(TypeSort.DEFAULT);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [limit, setLimit] = useState(10);
 
     const lineRates = useMemo(() => {
         return options
             .filter(option => option !== defaultRate)
+            .slice(currentPage * limit - limit, currentPage * limit)
             .join(",");
-    }, [defaultRate]);
+    }, [defaultRate, currentPage]);
 
     const {
         data: rates = [],
@@ -58,17 +60,15 @@ const TableWithRates = ({defaultRate}: {defaultRate: TypeRate}) => {
                     <RateRowsList
                         rates={rates}
                         currentTypeSort={currentTypeSort}
-                        setShowModal={setShowModal}
                     />
                 </tbody>
             </table>
-            {showModal && (
-                <MyModal
-                    setShowModal={setShowModal}
-                >
-                    Modal
-                </MyModal>
-            )}
+
+            <MyPagination
+                numbers={[1, 2]}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+            />
         </div>
     );
 };

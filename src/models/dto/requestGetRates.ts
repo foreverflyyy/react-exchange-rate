@@ -1,4 +1,4 @@
-import {TypeRate} from "./enum/typeRate";
+import {TypeRate} from "../enum/typeRate";
 
 export interface RequestGetRates {
     baseRate: TypeRate,
